@@ -17,10 +17,20 @@ var _ = {};
 * Objectives:
 *   1) Returns <value> unchanged
 * Examples:
-*   _.identity(5) === 5
+*   _.identity(5) === <--(this might be an accident, its returning) 5
 *   _.identity({a: "b"}) === {a: "b"}
 */
 
+/**
+ * I: a value
+ * O: the same value
+ * C:
+ * E:
+ */
+
+_.identity = function(value){
+    return value;
+}
 
 /** _.typeOf
 * Arguments:
@@ -41,6 +51,23 @@ var _ = {};
 * _.typeOf("javascript") -> "string"
 * _.typeOf([1,2,3]) -> "array"
 */
+
+/**
+ * I: any value 
+ * O: return a string
+ * C: 
+ * E: the string is the type of value 
+ */
+
+_.typeOf = function(value){
+    if(Array.isArray(value)){
+        return 'array'
+    } else if(value === null){
+        return "null"
+    } else {
+    return typeof value
+    }
+}
 
 
 /** _.first
@@ -158,7 +185,23 @@ var _ = {};
 *   use _.each in your implementation
 */
 
-
+/**
+ * I: an array and a function
+ * O: returns a new array
+ * C:
+ * E:
+ */
+_.filter = function(array, func){
+    //declare a new variable and assign it to an empty array
+    var returnArr = [];
+    //loop through the array
+    for( var i = 0; i < array.length; i++){
+        //determine if the result of invoking fun is true
+        if(func(array[i], i, array)){//determine if result of invoking func is true
+            output.push(array[i]);
+        }
+    }
+}
 /** _.reject
 * Arguments:
 *   1) An array
