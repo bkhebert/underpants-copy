@@ -88,6 +88,29 @@ _.typeOf = function(value){
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
 
+/** I: array and number
+ * O: an array
+ * C:
+ * E: what if num is negative or greater than array.length
+ */
+
+_.first = function(array, number){
+    //initialize an empty array
+    var emptyArray = [];
+    //if the array is not an array
+    if(Array.isArray(array) !== true){
+        //return an empty array
+        return []
+        //else if the number is undefined OR the type of number is not a number
+    } else if (number === undefined || typeof number !== "number" ){
+        //return the first number in the array
+        return array[0];
+        //else
+    } else {
+        //return the first number of items in that array
+        return array[n]
+    }
+}
 
 /** _.last
 * Arguments:
@@ -107,6 +130,34 @@ _.typeOf = function(value){
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
 
+/**
+ * I: An array a number 
+ * O: return and a array
+ * C:
+ * E:
+ */
+
+//intialize a function
+_.last = function(array, num){
+    //declare an empty Array
+    var emptyArray = [];
+    //if the array IS NOT an array
+    if(Array.isArray(array) === false){
+        //return emptyArray
+        return emptyArray;
+    } //if the number is not given or not a number
+    if(num === undefined){
+        //return last number of elements in the array
+        array[array.length - 1];
+    } else {
+        return array.slice(number);
+    }
+}
+
+
+
+
+
 
 /** _.indexOf
 * Arguments:
@@ -123,6 +174,27 @@ _.typeOf = function(value){
 *   _.indexOf(["a","b","c"], "c") -> 2
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
+
+/**
+* I: an array and a value
+* O: an array indez
+* C:
+* E:
+*/
+
+_.indexOf(array, value){
+    //if the typeof value is a number
+    if(typeof value === number){
+        //return the array index
+        for(var i = 0; i < array.length; i++){
+            //if the array at the index is equal to the value
+            if(array[i] === value){
+                //return 
+                return i
+            }
+        }
+    }
+}
 
 
 /** _.contains
@@ -197,7 +269,7 @@ _.filter = function(array, func){
     //loop through the array
     for( var i = 0; i < array.length; i++){
         //determine if the result of invoking fun is true
-        if(func(array[i], i, array)){//determine if result of invoking func is true
+        if(func(array[i], i, array) === true){//determine if result of invoking func is true
             output.push(array[i]);
         }
     }
