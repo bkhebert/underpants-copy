@@ -324,10 +324,11 @@ _.filter = function(array, func){
     //loop through the array
     for( var i = 0; i < array.length; i++){
         //determine if the result of invoking fun is true
-        if(func(array[i], i, array) === true){//determine if result of invoking func is true
-            output.push(array[i]);
+        if(func(array[i], i, array)){//
+            returnArr.push(array[i]);
         }
     }
+    return returnArr
 }
 /** _.reject
 * Arguments:
