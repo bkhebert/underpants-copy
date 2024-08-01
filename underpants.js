@@ -316,7 +316,7 @@ _.unique = function(array){
  * I: an array and a function
  * O: returns a new array
  * C:
- * E:
+ * E: w
  */
 _.filter = function(array, func){
     //declare a new variable and assign it to an empty array
