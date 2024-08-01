@@ -98,18 +98,24 @@ _.first = function(array, number){
     //initialize an empty array
     var emptyArray = [];
     //if the array is not an array
-    if(Array.isArray(array) !== true){
+    if (Array.isArray(array) !== true || number < 0){
         //return an empty array
-        return []
+        return emptyArray;
         //else if the number is undefined OR the type of number is not a number
-    } else if (number === undefined || typeof number !== "number" ){
+    } 
+    if (number === undefined || typeof number !== "number"){
         //return the first number in the array
         return array[0];
-        //else
-    } else {
-        //return the first number of items in that array
-        return array[n]
+    } //if the number is greater than the length of the array, return the entire array
+    if (number > array.length){
+        return array;
+    } 
+
+
+    if (number >= 0) {
+        return array.slice(0, number)
     }
+    
 }
 
 /** _.last
@@ -138,20 +144,28 @@ _.first = function(array, number){
  */
 
 //intialize a function
-_.last = function(array, num){
-    //declare an empty Array
+_.last = function(array, number){
+    //initialize an empty array
     var emptyArray = [];
-    //if the array IS NOT an array
-    if(Array.isArray(array) === false){
-        //return emptyArray
+    //if the array is not an array
+    if (Array.isArray(array) !== true || number < 0){
+        //return an empty array
         return emptyArray;
-    } //if the number is not given or not a number
-    if(num === undefined){
-        //return last number of elements in the array
-        array[array.length - 1];
-    } else {
-        return array.slice(number);
+        //else if the number is undefined OR the type of number is not a number
+    } 
+    if (number === undefined || typeof number !== "number"){
+        //return the lastt number in the array
+        return array[array.length - 1];
+    } //if the number is greater than the length of the array, return the entire array
+    if (number > array.length){
+        return array;
+    } 
+
+    //if the number is greater than or equal to zero, return the array counting backwards from the end by the amount of that number
+    if (number >= 0) {
+        return array.slice(array.length - number)
     }
+    
 }
 
 
@@ -175,26 +189,25 @@ _.last = function(array, num){
 *   _.indexOf(["a","b","c"], "d") -> -1
 */
 
-/**
+/** 
 * I: an array and a value
-* O: an array indez
+* O: a number 
 * C:
 * E:
 */
 
-_.indexOf(array, value){
-    //if the typeof value is a number
-    if(typeof value === number){
-        //return the array index
-        for(var i = 0; i < array.length; i++){
+_.indexOf = function (array, value){
+    //loop through the array
+for(var i = 0; i < array.length; i++){
             //if the array at the index is equal to the value
             if(array[i] === value){
-                //return 
-                return i
-            }
-        }
-    }
+            //return the index of that value
+            return i;
+        } 
+    }// if the value cannot be found, return -1
+    return -1;
 }
+
 
 
 /** _.contains
@@ -211,6 +224,10 @@ _.indexOf(array, value){
 * Examples:
 *   _.contains([1,"two", 3.14], "two") -> true
 */
+_.contains = function (array, value){
+    //if the array contains this value, return a boolean
+    return array.includes(value)?  true : false
+}
 
 
 /** _.each
@@ -228,6 +245,32 @@ _.indexOf(array, value){
 *   _.each(["a","b","c"], function(e,i,a){ console.log(e)});
 *      -> should log "a" "b" "c" to the console
 */
+/**
+ * I: a collection a function
+ * O: 
+ * C:
+ * E:
+ */
+//create a function that accepts both objects/ arrays and a function
+_.each = function(collection, func){
+    //if the datatype is an array
+    if( Array.isArray(collection) === true ){
+        //loop through the array
+        for(let i = 0; i < collection.length; i++){
+            //invoke the function and let its parameters take in the value, the current index, and the collection. thus, the entire array will 
+            //be changed
+           func(collection[i], i, collection); 
+        }
+        //if the collection is an object
+    } else if (typeof collection === "object" && !null){
+        //loop through each key in the object
+        for(var key in collection){
+            //apply the function to the property of the key, the key itself, and the object, thus the entire object will
+            //be changed
+            func(collection[key], key, collection);
+        }
+    }
+}
 
 
 /** _.unique
@@ -240,7 +283,19 @@ _.indexOf(array, value){
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
 
-
+//the function takes in an array as a parameter
+_.unique = function(array){
+    //initialize a new array
+    var newArray = [];
+    //loop through the array
+    for(var i = 0; i < array.length; i++){
+        //if the index of the function is equal to the current index of the loop
+        if(_.indexOf(array, array[i]) === i)
+        //push the unique value into the new array
+        newArray.push(array[i]);
+    } //return the new array 
+    return newArray
+}
 /** _.filter
 * Arguments:
 *   1) An array
@@ -286,6 +341,9 @@ _.filter = function(array, func){
 * Examples:
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
+_.reject = function(array, func){
+
+}
 
 
 /** _.partition
