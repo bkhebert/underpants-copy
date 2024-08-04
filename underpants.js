@@ -529,23 +529,26 @@ _.every = (collection, func) => {
    
     let bool = true;
     //if the collection is an array
-    
     if(Array.isArray(collection)){
         //loop through the array
         for(let i = 0; i < collection.length; i++){
             //if the func parameter is undefined
-            if(func = undefined){
+            if(typeof func != 'function'){
+                if(collection[i] === false){
+                    bool = false;
+                }
+            } else if(typeof func(collection[i], i, collection) != "boolean"){
                 //if the value at the index is false
                if(collection[i] === false){
                 //change bool to false
                     bool = false;
                 }
-            } 
             //if the func is not undefined, pass each value and index and the collection into the func, if it ever returns falsey value
-            if(func(collection[i], i, collection) === false && func != undefined){
+            } else if(func(collection[i], i, collection) === false && func != undefined){
                 //change the bool to false
                 bool = false;
             };
+            
        }
     }
     //if the type of collection is an object and not equal to null
@@ -553,7 +556,11 @@ _.every = (collection, func) => {
             //loop through the object
             for(var key in collection){
                 //if there is no function
-                if(func = undefined){
+                if(typeof func != 'function'){
+                    if(collection[key] === false){
+                        bool = false;
+                    }
+                } else if (typeof func(collection[key], key, collection) != "boolean"){
                     //loop through, if anything registers false
                     if(collection[key] === false){
                         //change bool to false
@@ -561,7 +568,7 @@ _.every = (collection, func) => {
                      }
                 }
                 //if any of the keys passed into the collection returns false and the func is not undefined
-                if(func(collection[key], key, collection) === false && func != undefined){
+                else if(func(collection[key], key, collection) === false && func != undefined){
                     //change the bool to false
                     bool = false;
                 } 
@@ -593,6 +600,58 @@ _.every = (collection, func) => {
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
+_.some = (collection, func) => {
+    //initialize a bool to false;
+    let bool = false;
+    //if the collection is an array
+    if(Array.isArray(collection)){
+        //loop through the array
+        for(let i = 0; i < collection.length; i++){
+            //if the func parameter is undefined
+            if(typeof func != 'function'){
+                if(collection[i] === true){
+                    bool = true;
+                }
+            } else if(typeof func(collection[i], i, collection) != "boolean"){
+                //if the value at the index is false
+               if(collection[i] === true){
+                //change bool to true
+                    bool = true;
+                }
+            //if the func is not undefined, pass each value and index and the collection into the func, if it ever returns falsey value
+            } else if(func(collection[i], i, collection) === true && func != undefined){
+                //change the bool to false
+                bool = true;
+            };
+            
+       }
+    }
+    //if the type of collection is an object and not equal to null
+    else if(typeof(collection) === 'object' && Array.isArray(collection) === false && collection != null && collection != undefined){
+            //loop through the object
+            for(var key in collection){
+                //if there is no function
+                if(typeof func != 'function'){
+                    if(collection[key] === true){
+                        bool = true;
+                    }
+                } else if (typeof func(collection[key], key, collection) != "boolean"){
+                    //loop through, if anything registers false
+                    if(collection[key] === true){
+                        //change bool to false
+                         bool = true;
+                     }
+                }
+                //if any of the keys passed into the collection returns false and the func is not undefined
+                else if(func(collection[key], key, collection) === true && func != undefined){
+                    //change the bool to false
+                    bool = true;
+                } 
+            }
+        }
+        //return the bool
+        return bool;
+}
 
 /** _.reduce
 * Arguments:
@@ -613,6 +672,35 @@ _.every = (collection, func) => {
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
 
+/**
+ * I: an array, a function, a seed
+ * O:a value of the final function call
+ * C: call the function on every element in the array, let the return value of the function be the previous result
+ * for the next iteration
+ */
+
+_.reduce = (array, func, seed) => {
+    //initialize previous result to the first element in array
+    let previousResult;
+    //if the seed is not undefined
+if(seed != undefined){
+    //reassign the previous result to the invoking of a function with parameters seed, first index of array, and zero
+    previousResult = func(seed, array[0], 0);
+} else {
+    //else, let previous result equal the first index in the array
+    previousResult = array[0]
+}
+    //loop through collection starting at the next value
+    for(let i = 1; i < array.length; i++){
+       //reassign previous result to the result of the function invoked on previousResult, the array index, and index.
+       previousResult = func(previousResult, array[i], i);
+    }
+    //return the previous result
+    return previousResult
+}
+
+
+
 
 /** _.extend
 * Arguments:
@@ -628,7 +716,23 @@ _.every = (collection, func) => {
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+/**
+ * I: multiple objects
+ * O: one object
+ * C: object 1 will have properties of all objects
+ * E:
+ */
 
+_.extend = function(...args){
+    let obj = args[0];
+   
+    for(let i = 0; i <  args.length ; i++){
+        for(var key in args[i]){
+            obj[key] = args[i][key];
+        }
+    }
+    return obj
+}
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
