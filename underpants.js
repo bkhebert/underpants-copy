@@ -345,7 +345,28 @@ _.filter = function(array, func){
 * Examples:
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
+
+/**
+ * I: an array
+ * O: a function
+ * C: 
+ * E: function will be called on each element in the array, passing in arguments 'elements, index, array
+ * //will return a new array of elements for which calling function returned false. logical inverse of _.filter
+ */
+//function takes in an array and a function
 _.reject = function(array, func){
+            //create a new array;
+    let newArr = [];
+    //loop through each element in the array
+    for(let i = 0; i < array.length; i++){
+        //pass each element, index, and the array into the function, if it is false
+        if(!func(array[i], i, array)){
+            //push it into the new array
+            newArr.push(array[i]);
+        }
+    }
+    //return the new array
+    return newArr;
 
 }
 
