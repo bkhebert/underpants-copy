@@ -389,6 +389,40 @@ _.reject = function(array, func){
 *   }); -> [[2,4],[1,3,5]]
 }
 */
+/**
+ * I: an array and a function
+ * O: return an array made up of 2 sub arrays
+ * C: one array contains all the values for which func returned true, the other for which func returned false
+ * E: this is going to return an array of arrays
+ */
+
+//create a function that takes in an array and a function
+_.partition = (array, func) => {
+    //initialize a truth array
+    let truthArr = [];
+    //initialize a false array
+    let falseArr = [];
+     //initialize both array
+    let partitionArr = [];
+    //loop through the array
+    for(let i = 0; i < array.length; i++){
+        //if the func returns true when element, index, and array is passed into it
+        if(func(array[i], i, array)){
+            //add that value to the truth array
+            truthArr.push(array[i]);
+        }
+        //if the func returns false when element, index, and array is passed into it
+       if(!func(array[i], i, array)){
+             //add value to false array
+            falseArr.push(array[i]);
+        }
+    }
+    //add both arrays into the partition array with their own index
+    partitionArr[0] = truthArr;
+    partitionArr[1] = falseArr;
+    //return the partition array
+        return partitionArr;
+}
 
 
 /** _.map
@@ -406,6 +440,37 @@ _.reject = function(array, func){
 * Examples:
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
+/**
+ * I: A collection and a function
+ * O: return an new array
+ * C: call the function for each element in the collection, pass in arguments at Objective 1. save the return value of each
+ * function in a new array.
+ * E: 
+ */
+
+//take in a collection and a function
+_.map = (collection, func) => {
+    //initialize a new array
+    let newArr = [];
+    //if the collection is an array
+    if(Array.isArray(collection)){
+        //loop through the array
+        for(let i = 0; i < collection.length; i++){
+            //pass each value and index and the collection into the func and save the return value to a new Array
+            newArr.push(func(collection[i], i, collection));
+       }
+    }//if the type of collection is an object and not equal to null
+        if(typeof(collection) === 'object' && !Array.isArray(collection) && collection != null){
+            //pass each value and index and the collection into the func and save the return value to a new Array
+            for(var key in collection){
+                //push each value into the new array
+                newArr.push(func(collection[key], key, collection))
+            }
+        }
+        //return the new array
+        return newArr;
+}
+
 
 
 /** _.pluck
@@ -418,6 +483,16 @@ _.reject = function(array, func){
 * Examples:
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
+/**
+ * I: an array of objects and a property
+ * O: an array containing the value of property for each element nin the array
+ * C: you must use _.map();
+ * E: 
+ */
+//the pluck array takes in an array of objects and a property
+_.pluck = (arrayOfObjects, property) => {
+    //return an array of each elements property using map
+    return _.map(arrayOfObjects, function getProperty(e, i, a) {return e[property]});}
 
 
 /** _.every
@@ -440,6 +515,61 @@ _.reject = function(array, func){
 *   _.every([2,4,6], function(e){return e % 2 === 0}) -> true
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
+/**
+ * I a collection and a function
+ * O return a boolean value
+ * C
+ * E
+ */
+
+//declare an every function, takes in a collection and a function
+_.every = (collection, func) => {
+
+    //initialize a bool to true;
+   
+    let bool = true;
+    //if the collection is an array
+    
+    if(Array.isArray(collection)){
+        //loop through the array
+        for(let i = 0; i < collection.length; i++){
+            //if the func parameter is undefined
+            if(func = undefined){
+                //if the value at the index is false
+               if(collection[i] === false){
+                //change bool to false
+                    bool = false;
+                }
+            } 
+            //if the func is not undefined, pass each value and index and the collection into the func, if it ever returns falsey value
+            if(func(collection[i], i, collection) === false && func != undefined){
+                //change the bool to false
+                bool = false;
+            };
+       }
+    }
+    //if the type of collection is an object and not equal to null
+        if(typeof(collection) === 'object' && !Array.isArray(collection) && collection != null){
+            //loop through the object
+            for(var key in collection){
+                //if there is no function
+                if(func = undefined){
+                    //loop through, if anything registers false
+                    if(collection[key] === false){
+                        //change bool to false
+                         bool = false;
+                     }
+                }
+                //if any of the keys passed into the collection returns false and the func is not undefined
+                if(func(collection[key], key, collection) === false && func != undefined){
+                    //change the bool to false
+                    bool = false;
+                } 
+            }
+        }
+        //return the bool
+        return bool;
+}
 
 
 /** _.some
