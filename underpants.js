@@ -318,16 +318,19 @@ _.unique = function(array){
  * C:
  * E: w
  */
+//take in an array and a function
 _.filter = function(array, func){
     //declare a new variable and assign it to an empty array
     var returnArr = [];
     //loop through the array
     for( var i = 0; i < array.length; i++){
-        //determine if the result of invoking fun is true
+        //determine if the result of invoking function that takes in rotating array value / index  and single array is true
         if(func(array[i], i, array)){//
+            //if it is true, add it to a new array
             returnArr.push(array[i]);
         }
     }
+    //return the array
     return returnArr
 }
 /** _.reject
