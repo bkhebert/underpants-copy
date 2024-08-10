@@ -29,6 +29,7 @@ var _ = {};
  */
 
 _.identity = function(value){
+    //return the function parameter
     return value;
 }
 
@@ -289,7 +290,7 @@ _.unique = function(array){
     var newArray = [];
     //loop through the array
     for(var i = 0; i < array.length; i++){
-        //if the index of the function is equal to the current index of the loop
+        //if the index of the function is equal to the current index of the loop. this works because indexOf returns the FIRST OCCURANCE of the value
         if(_.indexOf(array, array[i]) === i)
         //push the unique value into the new array
         newArray.push(array[i]);
@@ -492,7 +493,7 @@ _.map = (collection, func) => {
 //the pluck array takes in an array of objects and a property
 _.pluck = (arrayOfObjects, property) => {
     //return an array of each elements property using map
-    return _.map(arrayOfObjects, function getProperty(e, i, a) {return e[property]});}
+    return arrayOfObjects.map( (e, i, a) => {return e[property]});}
 
 
 /** _.every
@@ -609,18 +610,21 @@ _.some = (collection, func) => {
         for(let i = 0; i < collection.length; i++){
             //if the func parameter is undefined
             if(typeof func != 'function'){
+                //and if the collection item is true
                 if(collection[i] === true){
+                //return true
                     bool = true;
                 }
+//if the function does not return a bool
             } else if(typeof func(collection[i], i, collection) != "boolean"){
-                //if the value at the index is false
+                //if the value at the index is true
                if(collection[i] === true){
                 //change bool to true
                     bool = true;
                 }
-            //if the func is not undefined, pass each value and index and the collection into the func, if it ever returns falsey value
+            //if the func is not undefined, pass each value and index and the collection into the func, if it ever returns true value
             } else if(func(collection[i], i, collection) === true && func != undefined){
-                //change the bool to false
+                //change the bool to true
                 bool = true;
             };
             
@@ -682,10 +686,12 @@ _.some = (collection, func) => {
 _.reduce = (array, func, seed) => {
     //initialize previous result to the first element in array
     let previousResult;
-    //if the seed is not undefined
+    //if the seed is defined
 if(seed != undefined){
+
     //reassign the previous result to the invoking of a function with parameters seed, first index of array, and zero
     previousResult = func(seed, array[0], 0);
+
 } else {
     //else, let previous result equal the first index in the array
     previousResult = array[0]
@@ -723,14 +729,19 @@ if(seed != undefined){
  * E:
  */
 
+//uses destructuring to take in endless arguments
 _.extend = function(...args){
+    //args is can be accessed like an array. initialize a variable to the first argument, it should be an object 
     let obj = args[0];
-   
+   //loop through the arguments. all should be objects
     for(let i = 0; i <  args.length ; i++){
+        //create a for in loop for objects, each index value of an object is entered inside the loop 
         for(var key in args[i]){
+            //inside the loop, the obj key is given the same name as the object in the arguments index on the current loop, its also given the same value
             obj[key] = args[i][key];
         }
     }
+    //return the object
     return obj
 }
 //////////////////////////////////////////////////////////////////////
